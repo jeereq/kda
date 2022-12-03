@@ -11,12 +11,9 @@ import logo from "../assets/logowhite.png";
 import { client } from "../client";
 
 const Login = () => {
-  const userImage='https://source.unsplash.com/1600x900/?nature,photography,technology'
-  const image =
-    "https://cdn.sanity.io/images/96u1hx5i/production/149e6bfdb5f26188303f1e426f6145151052d136-1620x2880.jpg";
   const [login, setLogin] = useState({
-    name: "",
-    email: "",
+    name: "jeereq",
+    email: "minganda@itm.com",
   });
 
   const navigate = useNavigate();
@@ -24,35 +21,12 @@ const Login = () => {
   const onClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
     const { name, email } = login;
-
-    const doc = {
-      _id: uuidv4(),
-      _type: "user",
-      userName: name,
-      email,
-      Image: image,
-      image,
-    };
-
-    client.createIfNotExists(doc).then((data) => {
-      console.log(data);
-      navigate("/");
-      if (data.image === "") {
-        data.image = userImage;
-      }
-      localStorage.setItem("user", JSON.stringify(data));
+    const doc = { _id: uuidv4(), _type: "user", userName: name, email };
+    const response = client.createIfNotExists(doc).then((data) => {
+      return data;
     });
   };
-  useEffect(() => {
-    const User =
-      localStorage.getItem("user") !== "undefined"
-        ? JSON.parse(localStorage.getItem("user"))
-        : localStorage.clear();
-
-    if (!User) navigate("/");
-  }, []);
 
   return (
     <div className="flex justify-start items-center flex-col h-screen">
@@ -91,13 +65,13 @@ const Login = () => {
               type={"submit"}
               className="bg-green-600 w-full flex justify-center items-center mt-2 p-3 rounded-lg cursor-pointer outline-none text-white"
             >
-              <FaUser className="mr-4" /> Login
+              <FaUser className="mr-4" /> Signin
             </button>
             <div
-              onClick={() => navigate("/Signin")}
+              onClick={() => navigate("/login")}
               className="text-center text-white p-4 w-full cursor-pointer"
             >
-              Sign in
+              Login
             </div>
           </form>
         </div>

@@ -1,7 +1,8 @@
 {
-  "name": "react_sanity_socialmedia",
+  "name": "share",
   "version": "0.1.0",
   "private": true,
+  "author": "minganda jeereq",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@sanity/client": "^2.21.10",
@@ -21,6 +22,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",

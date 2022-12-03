@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
-import { Login } from './components';
-import Home from './container/Home';
+import { Login, Signin } from "./components";
+import Home from "./container/Home";
 
 const App = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const User = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
+    console.log(pathname);
+    const User =
+      localStorage.getItem("user") !== "undefined"
+        ? JSON.parse(localStorage.getItem("user"))
+        : localStorage.clear();
 
-    if (!User) navigate('/login');
-  }, []);
+    if (!User) navigate("/login");
+  }, [pathname]);
 
   return (
     <Routes>
       <Route path="login" element={<Login />} />
+      <Route path="Signin" element={<Signin />} />
       <Route path="/*" element={<Home />} />
     </Routes>
   );
