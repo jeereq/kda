@@ -65,7 +65,7 @@ const PinDetail = ({ user }) => {
   };
 
   if (!pinDetail) {
-    return <Spinner message="Showing pin" />;
+    return <Spinner message="Chargement en cours !" />;
   }
 
   return (
@@ -195,7 +195,7 @@ const PinDetail = ({ user }) => {
       {pins ? (
         <MasonryLayout pins={pins} />
       ) : (
-        <Spinner message="Loading more pins" />
+        <Spinner message="Chargement des postes similaire en cours !" />
       )}
     </>
   );

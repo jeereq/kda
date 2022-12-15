@@ -82,13 +82,65 @@ export const domaines = [
       "https://i.pinimg.com/236x/2e/63/c8/2e63c82dfd49aca8dccf9de3f57e8588.jpg",
   },
 ];
+export const salaires = [
+  {
+    name: "free",
+    image:
+      "https://i.pinimg.com/236x/2e/63/c8/2e63c82dfd49aca8dccf9de3f57e8588.jpg",
+  },
+  {
+    name: "0 á 20",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "20 á 50",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "50 á 100",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "100 á 200",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "200 á 500",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "500 á 1000",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "1000 á 2000",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "2000 á 5000",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+  {
+    name: "5000 á 10000",
+    image:
+      "https://i.pinimg.com/736x/f4/e5/ba/f4e5ba22311039662dd253be33bf5f0e.jpg",
+  },
+];
 
 export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
-  image{
-    asset->{
-      url
-    }
-  },
+      image{
+        asset->{
+          url
+        }
+      },
       _id,
       destination,
       postedBy->{
@@ -96,6 +148,7 @@ export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
         userName,
         image
       },
+      price,
       save[]{
         _key,
         postedBy->{
@@ -153,6 +206,7 @@ export const pinDetailMorePinQuery = (pin) => {
     },
     _id,
     destination,
+    price,
     postedBy->{
       _id,
       userName,
@@ -215,6 +269,7 @@ export const userCreatedPinsQuery = (userId) => {
       }
     },
     _id,
+    price,
     destination,
     postedBy->{
       _id,
@@ -240,6 +295,7 @@ export const userSavedPinsQuery = (userId) => {
       }
     },
     _id,
+    price,
     destination,
     postedBy->{
       _id,

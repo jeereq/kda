@@ -3,7 +3,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 
-import { categories, domaines } from "../utils/data";
+import { categories, domaines, salaires } from "../utils/data";
 import { client } from "../client";
 import Spinner from "./Spinner";
 const CreatePin = ({ user }) => {
@@ -13,6 +13,7 @@ const CreatePin = ({ user }) => {
   const [destination, setDestination] = useState();
   const [fields, setFields] = useState();
   const [category, setCategory] = useState();
+  const [price, setPrice] = useState("");
   const [domain, setDomain] = useState();
   const [imageAsset, setImageAsset] = useState();
   const [wrongImageType, setWrongImageType] = useState(false);
@@ -50,7 +51,14 @@ const CreatePin = ({ user }) => {
   };
 
   const savePin = () => {
-    if (title && about && destination && imageAsset?._id && category && domain) {
+    if (
+      title &&
+      about &&
+      destination &&
+      imageAsset?._id &&
+      category &&
+      domain
+    ) {
       const doc = {
         _type: "pin",
         title,
@@ -69,7 +77,8 @@ const CreatePin = ({ user }) => {
           _ref: user?._id,
         },
         category,
-        domain
+        domain,
+        price,
       };
       client.create(doc).then(() => {
         navigate("/");
@@ -82,11 +91,12 @@ const CreatePin = ({ user }) => {
       }, 2000);
     }
   };
+
   return (
     <div className="flex flex-col justify-center items-center mt-5 lg:h-4/5">
       {fields && (
         <p className="text-red-500 mb-5 text-xl transition-all duration-150 ease-in ">
-         Remplis tous les champs
+          Remplis tous les champs
         </p>
       )}
       <div className=" flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5  w-full">
@@ -168,12 +178,32 @@ const CreatePin = ({ user }) => {
             placeholder="Ajoute un lien "
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
-
+          <div className="w-full">
+            <p className="mb-2 font-semibold text:lg sm:text-xl">Prix</p>
+            <select
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
+              className="outline-none w-full text-base text-xs border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
+            >
+              <option value="others" className="sm:text-bg bg-white">
+                Choisis la plage du prix
+              </option>
+              {salaires.map((item) => (
+                <option
+                  className="text-base border-0 outline-none capitalize bg-white text-black "
+                  value={item.name}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex flex-col">
             <div className="flex flex-row">
               <div className="w-2/4">
                 <p className="mb-2 font-semibold text:lg sm:text-xl">
-              Catégories
+                  Catégories
                 </p>
                 <select
                   onChange={(e) => {
@@ -196,7 +226,7 @@ const CreatePin = ({ user }) => {
               </div>
               <div className="w-2/4">
                 <p className="mb-2 font-semibold text:lg sm:text-xl">
-               Domaines
+                  Domaines
                 </p>
                 <select
                   onChange={(e) => {
@@ -205,7 +235,7 @@ const CreatePin = ({ user }) => {
                   className="outline-none w-11/12 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
                 >
                   <option value="others" className="sm:text-bg bg-white">
-                  choisis un domaine
+                    choisis un domaine
                   </option>
                   {domaines.map((item) => (
                     <option
@@ -224,7 +254,7 @@ const CreatePin = ({ user }) => {
                 onClick={savePin}
                 className="bg-red-500 text-white font-bold p-2 rounded-full w-28 outline-none"
               >
-               Sauvegarder
+                Sauvegarder
               </button>
             </div>
           </div>

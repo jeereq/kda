@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { MdDownloadForOffline } from "react-icons/md";
+import { MdDownloadForOffline, MdLink } from "react-icons/md";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BsFillArrowUpRightCircleFill } from "react-icons/bs";
 
@@ -91,6 +92,16 @@ const Pin = ({ pin }) => {
                 >
                   <MdDownloadForOffline />
                 </a>
+                <a
+                  href={`${image?.asset?.url}?dl=`}
+                  download
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className="bg-white w-9 h-9 p-2 rounded-full flex items-center justify-center text-dark text-xl opacity-75 hover:opacity-100 hover:shadow-md outline-none"
+                >
+                  <MdLink />
+                </a>
               </div>
               {alreadySaved?.length !== 0 ? (
                 <button
@@ -112,12 +123,12 @@ const Pin = ({ pin }) => {
                 </button>
               )}
             </div>
-            <div className=" flex justify-between items-center gap-2 w-full">
+            <div className=" flex justify-between items-center gap-1 w-full">
               {destination?.slice(8).length > 0 ? (
                 <a
                   href={destination}
                   target="_blank"
-                  className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md"
+                  className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-3 pr-3 rounded-full opacity-70 hover:opacity-100 hover:shadow-md"
                   rel="noreferrer"
                 >
                   <BsFillArrowUpRightCircleFill />
@@ -133,9 +144,24 @@ const Pin = ({ pin }) => {
                   }}
                   className="bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center text-dark opacity-75 hover:opacity-100 outline-none"
                 >
-                  <AiTwotoneDelete />
+                  <AiTwotoneDelete color="red" />
                 </button>
               )}
+              {
+                <button
+                  type="button w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deletePin(_id);
+                  }}
+                  className="bg-white p-1 rounded-full h-8 flex items-center justify-center text-dark opacity-75 hover:opacity-100 outline-none"
+                >
+                  <span className="font-bold text-xs">
+                    {pin.price || "free"}
+                  </span>
+                  <RiMoneyDollarCircleFill />
+                </button>
+              }
             </div>
           </div>
         )}

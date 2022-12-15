@@ -63,8 +63,8 @@ const UserProfile = () => {
     navigate("/login");
   };
 
-  if (!user) return <Spinner message="Loading profile" />;
-  if (loading) return <Spinner message="Loading profile" />;
+  if (!user) return <Spinner message="Loading profile" color="red" />;
+  if (loading) return <Spinner message="Loading profile" color="red"/>;
 
   return (
     <div className="relative pb-2 h-full justify-center items-center">
