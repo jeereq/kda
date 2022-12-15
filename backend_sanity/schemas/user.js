@@ -40,7 +40,6 @@ export default {
       name: "email",
       title: "Email",
       type: "string",
-      initialValue: "mingandajeereq@gmail.com",
     },
   ],
 };

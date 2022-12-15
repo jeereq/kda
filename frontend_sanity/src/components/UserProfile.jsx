@@ -20,7 +20,8 @@ const notActiveBtnStyles =
 const UserProfile = () => {
   const [user, setUser] = useState();
   const [pins, setPins] = useState();
-  const [text, setText] = useState("Created");
+  const [loading, setLoading] = useState(false);
+  const [text, setText] = useState("created");
   const [activeBtn, setActiveBtn] = useState("created");
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -29,28 +30,30 @@ const UserProfile = () => {
     localStorage.getItem("user") !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : localStorage.clear();
-  const userImage =
-    "https://source.unsplash.com/1600x900/?nature,photography,technology";
 
   useEffect(() => {
     const query = userQuery(userId);
     client.fetch(query).then(([data]) => {
+      console.log(data);
       setUser(data);
     });
   }, [userId]);
 
   useEffect(() => {
-    if (text === "Created") {
+    if (text === "created") {
+      setLoading(true);
       const createdPinsQuery = userCreatedPinsQuery(userId);
 
       client.fetch(createdPinsQuery).then((data) => {
         setPins(data);
+        setLoading(false);
       });
     } else if (text === "saved") {
+      setLoading(true);
       const savedPinsQuery = userSavedPinsQuery(userId);
-
       client.fetch(savedPinsQuery).then((data) => {
         setPins(data);
+        setLoading(false);
       });
     }
   }, [text, userId]);
@@ -61,6 +64,7 @@ const UserProfile = () => {
   };
 
   if (!user) return <Spinner message="Loading profile" />;
+  if (loading) return <Spinner message="Loading profile" />;
 
   return (
     <div className="relative pb-2 h-full justify-center items-center">
@@ -74,7 +78,7 @@ const UserProfile = () => {
             />
             <img
               className="rounded-full w-20 h-20 -mt-10 shadow-xl object-cover"
-              src={user?.image || userImage}
+              src={user?.image?.url || user?.image}
               alt="user-pic"
             />
           </div>
@@ -101,7 +105,7 @@ const UserProfile = () => {
           <button
             type="button"
             onClick={(e) => {
-              setText(e.target.textContent);
+              setText("created");
               setActiveBtn("created");
             }}
             className={`${
@@ -113,26 +117,26 @@ const UserProfile = () => {
           <button
             type="button"
             onClick={(e) => {
-              setText(e.target.textContent);
+              setText("saved");
               setActiveBtn("saved");
             }}
             className={`${
               activeBtn === "saved" ? activeBtnStyles : notActiveBtnStyles
             }`}
           >
-            favoris
+            Favoris
           </button>
           <button
             type="button"
             onClick={(e) => {
-              setText(e.target.textContent);
+              setText('details');
               setActiveBtn("details");
             }}
             className={`${
               activeBtn === "details" ? activeBtnStyles : notActiveBtnStyles
             }`}
           >
-            details
+            Details
           </button>
         </div>
 
@@ -148,7 +152,9 @@ const UserProfile = () => {
             )}
           </>
         ) : (
-          <><UserDetails user={user && user} setUser={setUser}/></>
+          <>
+            <UserDetails user={user && user} setUser={setUser} />
+          </>
         )}
       </div>
     </div>

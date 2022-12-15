@@ -13,13 +13,15 @@ import { client } from "../client";
 import Spinner from "./Spinner";
 
 const CreatePin = ({ user, setUser }) => {
-  const [title, setTitle] = useState(user.userName);
+  const [userName, setUserName] = useState(user.userName);
   const [email, setEmail] = useState(user.email);
+  const [facebook, setFacebook] = useState(user.facebook);
+  const [twitter, setTwitter] = useState(user.twitter);
+  const [instagram, setInstagram] = useState(user.instagram);
+  const [youtube, setYoutube] = useState(user.youtube);
   const [loading, setLoading] = useState(false);
-  const [destination, setDestination] = useState();
+  const [loadingUser, setLoadingUser] = useState(false);
   const [fields, setFields] = useState();
-  const [category, setCategory] = useState();
-  const [domain, setDomain] = useState();
   const [imageAsset, setImageAsset] = useState(user.image);
   const [wrongImageType, setWrongImageType] = useState(false);
   const [currentUser, setCurrentUser] = useState(
@@ -46,7 +48,7 @@ const CreatePin = ({ user, setUser }) => {
           filename: selectedFile.name,
         })
         .then((document) => {
-          setImageAsset(document);
+          setImageAsset(document.url);
           setUser((dataUser) => ({ ...dataUser, image: document.url }));
           setLoading(false);
         })
@@ -59,41 +61,31 @@ const CreatePin = ({ user, setUser }) => {
     }
   };
 
-  const savePin = () => {
-    if (
-      title &&
-      about &&
-      destination &&
-      imageAsset?._id &&
-      category &&
-      domain
-    ) {
+  const saveUpdate = () => {
+    if (userName && email && (imageAsset?._id || imageAsset)) {
+      setLoadingUser(true);
       const doc = {
-        _type: "pin",
-        title,
-        about,
-        destination,
-        image: {
-          _type: "image",
-          asset: {
-            _type: "reference",
-            _ref: imageAsset?._id,
-          },
-        },
-        userId: user._id,
-        postedBy: {
-          _type: "postedBy",
-          _ref: user?._id,
-        },
-        category,
-        domain,
+        _type: "user",
+        ...user,
+        userName,
+        email,
+        image: imageAsset,
+        facebook,
+        twitter,
+        instagram,
+        youtube,
       };
-      client.create(doc).then(() => {
+
+      client.createOrReplace(doc).then((res) => {
+        setLoadingUser(false);
+        console.log(res);
+        if (user?._id === currentUser._id) {
+          localStorage.setItem("user", JSON.stringify(res));
+        }
         navigate("/");
       });
     } else {
       setFields(true);
-
       setTimeout(() => {
         setFields(false);
       }, 2000);
@@ -137,17 +129,19 @@ const CreatePin = ({ user, setUser }) => {
             ) : (
               <div className="relative h-full">
                 <img
-                  src={imageAsset.url || imageAsset}
+                  src={imageAsset?.url || imageAsset}
                   alt="uploaded-pic"
                   className="h-full w-full"
                 />
-                <button
-                  type="button"
-                  className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
-                  onClick={() => setImageAsset(null)}
-                >
-                  <MdDelete />
-                </button>
+                {user?._id === currentUser._id && (
+                  <button
+                    type="button"
+                    className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
+                    onClick={() => setImageAsset(null)}
+                  >
+                    <MdDelete />
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -156,9 +150,9 @@ const CreatePin = ({ user, setUser }) => {
         <div className="flex flex-1 flex-col gap-6 lg:pl-5 mt-5 w-full">
           <input
             type="text"
-            value={title}
+            value={userName}
             disabled={user?._id !== currentUser._id}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
             placeholder="Nom"
             className="outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2"
           />
@@ -167,14 +161,14 @@ const CreatePin = ({ user, setUser }) => {
             type="email"
             value={email}
             disabled
-            onChange={(e) => setAbout(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
           <div className="flex justify-between p-1">
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
               <a
-                href={""}
+                href={facebook}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
@@ -183,17 +177,17 @@ const CreatePin = ({ user, setUser }) => {
                 <MdLink />
               </a>
               <input
-                type="url"
-                vlaue={destination}
+                type="text"
+                value={facebook}
                 disabled={user?._id !== currentUser._id}
-                onChange={(e) => setDestination(e.target.value)}
+                onChange={(e) => setFacebook(e.target.value)}
                 placeholder="Facebook"
                 className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
               />
             </div>
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
               <a
-                href={""}
+                href={instagram}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
@@ -202,10 +196,10 @@ const CreatePin = ({ user, setUser }) => {
                 <MdLink />
               </a>
               <input
-                type="url"
-                vlaue={destination}
+                type="text"
+                value={instagram}
                 disabled={user?._id !== currentUser._id}
-                onChange={(e) => setDestination(e.target.value)}
+                onChange={(e) => setInstagram(e.target.value)}
                 placeholder="Instagram"
                 className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
               />
@@ -214,7 +208,7 @@ const CreatePin = ({ user, setUser }) => {
           <div className="flex justify-between p-1">
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
               <a
-                href={""}
+                href={twitter}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
@@ -223,17 +217,17 @@ const CreatePin = ({ user, setUser }) => {
                 <MdLink />
               </a>
               <input
-                type="url"
-                vlaue={destination}
+                type="text"
+                value={twitter}
                 disabled={user?._id !== currentUser._id}
-                onChange={(e) => setDestination(e.target.value)}
+                onChange={(e) => setTwitter(e.target.value)}
                 placeholder="Twitter"
                 className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
               />
             </div>
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
               <a
-                href={""}
+                href={youtube}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
@@ -242,10 +236,10 @@ const CreatePin = ({ user, setUser }) => {
                 <MdLink />
               </a>
               <input
-                type="url"
+                type="text"
                 disabled={user?._id !== currentUser._id}
-                vlaue={destination}
-                onChange={(e) => setDestination(e.target.value)}
+                value={youtube}
+                onChange={(e) => setYoutube(e.target.value)}
                 placeholder="Youtube"
                 className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
               />
@@ -254,11 +248,22 @@ const CreatePin = ({ user, setUser }) => {
           {user && (
             <div className="flex gap-2 mt-2 mb-2 items-center bg-white rounded-lg ">
               <img
-                src={user.image}
+                src={user?.image?.url || user?.image}
                 className="w-10 h-10 rounded-full"
                 alt="user-profile"
               />
               <p className="font-bold">{user.userName}</p>
+            </div>
+          )}
+          {user?._id === currentUser._id && (
+            <div className="flex justify-end items-end mt-5">
+              <button
+                type="button"
+                onClick={saveUpdate}
+                className="bg-red-500 text-white font-bold p-2 rounded-full w-28 outline-none"
+              >
+                {loadingUser ? "...Modifier" : "Modifier"}
+              </button>
             </div>
           )}
         </div>

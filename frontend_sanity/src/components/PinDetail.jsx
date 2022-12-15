@@ -102,7 +102,7 @@ const PinDetail = ({ user }) => {
                 </a>
               </div>
               <div className="flex gap-2 items-center">
-              {pinDetail?.domain && (
+                {pinDetail?.domain && (
                   <img
                     src={
                       domaines.find(({ name }) => name === pinDetail.domain)
@@ -133,7 +133,9 @@ const PinDetail = ({ user }) => {
               className="flex gap-2 mt-5 items-center bg-white rounded-lg "
             >
               <img
-                src={pinDetail?.postedBy.image}
+                src={
+                  pinDetail?.postedBy.image?.url || pinDetail?.postedBy.image
+                }
                 className="w-10 h-10 rounded-full"
                 alt="user-profile"
               />
@@ -187,7 +189,7 @@ const PinDetail = ({ user }) => {
       )}
       {pins?.length > 0 && (
         <h2 className="text-center font-bold text-2xl mt-8 mb-4">
-         Autres poste simulaire(s) 
+          Autres poste simulaire(s)
         </h2>
       )}
       {pins ? (

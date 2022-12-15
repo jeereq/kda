@@ -12,8 +12,9 @@ const Pin = ({ pin }) => {
   const [savingPost, setSavingPost] = useState(false);
 
   const navigate = useNavigate();
-  const userImage='https://source.unsplash.com/1600x900/?nature,photography,technology'
- 
+  const userImage =
+    "https://source.unsplash.com/1600x900/?nature,photography,technology";
+
   const { postedBy, image, _id, destination } = pin;
 
   const user =
@@ -145,7 +146,7 @@ const Pin = ({ pin }) => {
       >
         <img
           className="w-8 h-8 rounded-full object-cover"
-          src={postedBy?.image || userImage}
+          src={postedBy?.image?.url || postedBy?.image}
           alt="user-profile"
         />
         <p className="font-semibold capitalize">{postedBy?.userName}</p>

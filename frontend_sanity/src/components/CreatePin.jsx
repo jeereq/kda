@@ -86,7 +86,7 @@ const CreatePin = ({ user }) => {
     <div className="flex flex-col justify-center items-center mt-5 lg:h-4/5">
       {fields && (
         <p className="text-red-500 mb-5 text-xl transition-all duration-150 ease-in ">
-          Please add all fields.
+         Remplis tous les champs
         </p>
       )}
       <div className=" flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5  w-full">
@@ -141,7 +141,7 @@ const CreatePin = ({ user }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Add your title"
+            placeholder="Ajoute un titre"
             className="outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2"
           />
           {user && (
@@ -158,14 +158,14 @@ const CreatePin = ({ user }) => {
             type="text"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
-            placeholder="Tell everyone what your Pin is about"
+            placeholder="Donne nous une déscription de ton produit ou service "
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
           <input
             type="url"
             vlaue={destination}
             onChange={(e) => setDestination(e.target.value)}
-            placeholder="Add a destination link"
+            placeholder="Ajoute un lien "
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
 
@@ -173,7 +173,7 @@ const CreatePin = ({ user }) => {
             <div className="flex flex-row">
               <div className="w-2/4">
                 <p className="mb-2 font-semibold text:lg sm:text-xl">
-                  Choose Pin Category
+              Catégories
                 </p>
                 <select
                   onChange={(e) => {
@@ -182,7 +182,7 @@ const CreatePin = ({ user }) => {
                   className="outline-none w-11/12 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
                 >
                   <option value="others" className="sm:text-bg bg-white">
-                    Select Category
+                    Choisis la Categorie
                   </option>
                   {categories.map((item) => (
                     <option
@@ -196,7 +196,7 @@ const CreatePin = ({ user }) => {
               </div>
               <div className="w-2/4">
                 <p className="mb-2 font-semibold text:lg sm:text-xl">
-                  Choose Pin Domain
+               Domaines
                 </p>
                 <select
                   onChange={(e) => {
@@ -205,7 +205,7 @@ const CreatePin = ({ user }) => {
                   className="outline-none w-11/12 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
                 >
                   <option value="others" className="sm:text-bg bg-white">
-                    Select Domain
+                  choisis un domaine
                   </option>
                   {domaines.map((item) => (
                     <option
@@ -224,7 +224,7 @@ const CreatePin = ({ user }) => {
                 onClick={savePin}
                 className="bg-red-500 text-white font-bold p-2 rounded-full w-28 outline-none"
               >
-                Save Pin
+               Sauvegarder
               </button>
             </div>
           </div>

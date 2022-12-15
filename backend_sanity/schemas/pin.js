@@ -28,6 +28,11 @@ export default {
       title: 'Domain',
       type: 'string',
       initialValue: 'Design'
+    },   {
+      name: 'price',
+      title: 'Price',
+      type: 'string',
+      initialValue: 'free'
     },
     {
       name: 'image',
