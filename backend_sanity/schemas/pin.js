@@ -24,6 +24,12 @@ export default {
       type: 'string',
     },
     {
+      name: 'domain',
+      title: 'Domain',
+      type: 'string',
+      initialValue: 'Design'
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
