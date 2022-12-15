@@ -23,8 +23,8 @@ const Pins = ({ user }) => {
             element={<Feed type={"category"} />}
           />
           <Route
-            path="/domaine/:Id"
-            element={<Feed type={"domaine"} />}
+            path="/domain/:Id"
+            element={<Feed type={"domain"} />}
           />
           <Route
             path="/pin-detail/:pinId"

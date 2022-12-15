@@ -19,9 +19,9 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="login" element={<Login />} />
-      <Route path="Signin" element={<Signin />} />
-      <Route path="image" element={<Image />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/Signin" element={<Signin />} />
+      <Route path="/image" element={<Image />} />
       <Route path="/*" element={<Home />} />
     </Routes>
   );

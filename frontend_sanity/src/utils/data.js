@@ -170,8 +170,14 @@ export const pinDetailMorePinQuery = (pin) => {
   return query;
 };
 
-export const searchQuery = (searchTerm) => {
-  const query = `*[_type == "pin" && title match '${searchTerm}*' || category match '${searchTerm}*' || domain match '${searchTerm}*' || about match '${searchTerm}*']{
+export const searchQuery = (searchTerm, type) => {
+  let typeSearch = "";
+  if (type === "category") {
+    typeSearch = `|| category match '${searchTerm}*'`;
+  } else if (type === "domain") {
+    typeSearch = `|| domain match '${searchTerm}*'`;
+  }
+  const query = `*[_type == "pin" && title match '${searchTerm}*' ${typeSearch} || about match '${searchTerm}*'] {
         image{
           asset->{
             url

@@ -22,8 +22,8 @@ const Sidebar = ({ closeToggle, user }) => {
   const handleCloseSidebar = () => {
     if (closeToggle) closeToggle(false);
   };
+  
   const navigate = useNavigate();
-  const location =useLocation()
 
   return (
     <div className="flex flex-col justify-between bg-white h-full overflow-y-scroll min-w-210 hide-scrollbar">
@@ -50,10 +50,11 @@ const Sidebar = ({ closeToggle, user }) => {
           <div className="flex items-center ">
             <select
               onChange={(e) => {
-                navigate(`/domaine/${e.target.value}`);
+                navigate(`/domain/${e.target.value}`);
                 setDomaine(
                   domaines.find(({ name }) => name === e.target.value)
                 );
+                setCategory(null)
               }}
               className="outline-none w-4/5 text-base border-2 border-gray-200 py-3 pl-2 ml-5 rounded-md cursor-pointer"
             >
@@ -87,6 +88,7 @@ const Sidebar = ({ closeToggle, user }) => {
                 setCategory(
                   categories.find(({ name }) => name === e.target.value)
                 );
+                setDomaine(null)
               }}
               className="outline-none w-4/5 text-base border-2 border-gray-200 py-3 pl-2 ml-5 rounded-md cursor-pointer"
             >
@@ -94,15 +96,13 @@ const Sidebar = ({ closeToggle, user }) => {
                 Choisis
               </option>
               {categories.map((item) => (
-                <>
                   <option
                     key={item.name}
-                    className="text-base border-0 outline-none capitalize bg-white text-black "
+                    className="inline-block text-base border-0 outline-none py-2 capitalize bg-white text-black "
                     value={item.name}
                   >
                     {item.name}
                   </option>
-                </>
               ))}
             </select>
             {category && (

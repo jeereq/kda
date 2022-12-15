@@ -15,7 +15,7 @@ const Feed = ({ type }) => {
     console.log(type, Id);
     if (Id) {
       setLoading(true);
-      const query = searchQuery(Id);
+      const query = searchQuery(Id, type);
       client.fetch(query).then((data) => {
         setPins(data);
         setLoading(false);
@@ -35,7 +35,14 @@ const Feed = ({ type }) => {
       <Spinner message={`We are adding ${ideaName} ideas to your feed!`} />
     );
   }
-  return <div>{pins && <MasonryLayout pins={pins} />}</div>;
+  return (
+    <div>
+      {pins && <MasonryLayout pins={pins} />}
+      {pins?.length === 0 && (
+        <div className="mt-10 text-center text-xl ">Pas de poste trouvé!</div>
+      )}
+    </div>
+  );
 };
 
 export default Feed;

@@ -75,7 +75,7 @@ const UserProfile = () => {
             />
             <img
               className="rounded-full w-20 h-20 -mt-10 shadow-xl object-cover"
-              src={user.image|| userImage}
+              src={user?.image || userImage}
               alt="user-pic"
             />
           </div>
@@ -83,7 +83,7 @@ const UserProfile = () => {
             {user.userName}
           </h1>
           <div className="absolute top-0 z-1 right-0 p-2">
-            {userId === User._id && (
+            {userId === User?._id && (
               <div
                 onClick={() => logout()}
                 className="text-center text-white p-4 w-full cursor-pointer"
@@ -109,7 +109,7 @@ const UserProfile = () => {
               activeBtn === "created" ? activeBtnStyles : notActiveBtnStyles
             }`}
           >
-            Created
+            Crée
           </button>
           <button
             type="button"
@@ -121,7 +121,19 @@ const UserProfile = () => {
               activeBtn === "saved" ? activeBtnStyles : notActiveBtnStyles
             }`}
           >
-            Saved
+            favoris
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              setText(e.target.textContent);
+              setActiveBtn("details");
+            }}
+            className={`${
+              activeBtn === "details" ? activeBtnStyles : notActiveBtnStyles
+            }`}
+          >
+            details
           </button>
         </div>
 

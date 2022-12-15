@@ -51,7 +51,7 @@ const Login = () => {
         ? JSON.parse(localStorage.getItem("user"))
         : localStorage.clear();
 
-    if (!User) navigate("/");
+    // if (!User) navigate("/");
   }, []);
 
   return (

@@ -10,7 +10,7 @@ import logo from "../assets/logowhite.png";
 
 import { client } from "../client";
 
-const Login = () => {
+const Signin = () => {
   const [login, setLogin] = useState({
     name: "jeereq",
     email: "minganda@itm.com",
@@ -79,4 +79,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default Signin;

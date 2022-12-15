@@ -14,7 +14,6 @@ const Pin = ({ pin }) => {
   const navigate = useNavigate();
   const userImage='https://source.unsplash.com/1600x900/?nature,photography,technology'
  
-
   const { postedBy, image, _id, destination } = pin;
 
   const user =
@@ -97,7 +96,7 @@ const Pin = ({ pin }) => {
                   type="button"
                   className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
                 >
-                  {pin?.save?.length} Saved
+                  {pin?.save?.length} favoris
                 </button>
               ) : (
                 <button
@@ -108,7 +107,7 @@ const Pin = ({ pin }) => {
                   type="button"
                   className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
                 >
-                  {pin?.save?.length} {savingPost ? "Saving" : "Save"}
+                  {pin?.save?.length} {savingPost ? "...favoris" : "favoris"}
                 </button>
               )}
             </div>
@@ -120,7 +119,6 @@ const Pin = ({ pin }) => {
                   className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md"
                   rel="noreferrer"
                 >
-                  {" "}
                   <BsFillArrowUpRightCircleFill />
                   {destination?.slice(8, 17)}...
                 </a>
