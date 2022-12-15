@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { MdLink } from "react-icons/md";
 import {
   FaFacebook,
   FaInstagramSquare,
@@ -172,7 +173,15 @@ const CreatePin = ({ user, setUser }) => {
           />
           <div className="flex justify-between p-1">
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
-              <FaFacebook />
+              <a
+                href={""}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
+              >
+                <FaFacebook />
+                <MdLink />
+              </a>
               <input
                 type="url"
                 vlaue={destination}
@@ -183,7 +192,15 @@ const CreatePin = ({ user, setUser }) => {
               />
             </div>
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
-              <FaInstagramSquare />
+              <a
+                href={""}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
+              >
+                <FaInstagramSquare />
+                <MdLink />
+              </a>
               <input
                 type="url"
                 vlaue={destination}
@@ -196,7 +213,15 @@ const CreatePin = ({ user, setUser }) => {
           </div>
           <div className="flex justify-between p-1">
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
-              <FaTwitterSquare />
+              <a
+                href={""}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
+              >
+                <FaTwitterSquare />
+                <MdLink />
+              </a>
               <input
                 type="url"
                 vlaue={destination}
@@ -207,13 +232,21 @@ const CreatePin = ({ user, setUser }) => {
               />
             </div>
             <div className="flex items-center border-b-2 border-gray-200 w-2/4">
-              <FaYoutube />
+              <a
+                href={""}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
+              >
+                <FaYoutube />
+                <MdLink />
+              </a>
               <input
                 type="url"
                 disabled={user?._id !== currentUser._id}
                 vlaue={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                placeholder="Add a destination link"
+                placeholder="Youtube"
                 className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
               />
             </div>
