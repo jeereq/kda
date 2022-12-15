@@ -1,21 +1,29 @@
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import {
+  FaFacebook,
+  FaInstagramSquare,
+  FaTwitterSquare,
+  FaYoutube,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-
-import { categories, domaines } from "../utils/data";
 import { client } from "../client";
 import Spinner from "./Spinner";
-const CreatePin = ({ user }) => {
-  const [title, setTitle] = useState("");
-  const [about, setAbout] = useState("");
+
+const CreatePin = ({ user, setUser }) => {
+  const [title, setTitle] = useState(user.userName);
+  const [email, setEmail] = useState(user.email);
   const [loading, setLoading] = useState(false);
   const [destination, setDestination] = useState();
   const [fields, setFields] = useState();
   const [category, setCategory] = useState();
   const [domain, setDomain] = useState();
-  const [imageAsset, setImageAsset] = useState();
+  const [imageAsset, setImageAsset] = useState(user.image);
   const [wrongImageType, setWrongImageType] = useState(false);
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
   const navigate = useNavigate();
 
@@ -38,6 +46,7 @@ const CreatePin = ({ user }) => {
         })
         .then((document) => {
           setImageAsset(document);
+          setUser((dataUser) => ({ ...dataUser, image: document.url }));
           setLoading(false);
         })
         .catch((error) => {
@@ -50,7 +59,14 @@ const CreatePin = ({ user }) => {
   };
 
   const savePin = () => {
-    if (title && about && destination && imageAsset?._id && category && domain) {
+    if (
+      title &&
+      about &&
+      destination &&
+      imageAsset?._id &&
+      category &&
+      domain
+    ) {
       const doc = {
         _type: "pin",
         title,
@@ -69,7 +85,7 @@ const CreatePin = ({ user }) => {
           _ref: user?._id,
         },
         category,
-        domain
+        domain,
       };
       client.create(doc).then(() => {
         navigate("/");
@@ -102,7 +118,7 @@ const CreatePin = ({ user }) => {
                     <p className="font-bold text-2xl">
                       <AiOutlineCloudUpload />
                     </p>
-                    <p className="text-lg">Click pour charger l'image</p>
+                    <p className="text-lg">Click to upload</p>
                   </div>
 
                   <p className="mt-32 text-gray-400">
@@ -120,7 +136,7 @@ const CreatePin = ({ user }) => {
             ) : (
               <div className="relative h-full">
                 <img
-                  src={imageAsset?.url}
+                  src={imageAsset.url || imageAsset}
                   alt="uploaded-pic"
                   className="h-full w-full"
                 />
@@ -140,10 +156,68 @@ const CreatePin = ({ user }) => {
           <input
             type="text"
             value={title}
+            disabled={user?._id !== currentUser._id}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Add your title"
+            placeholder="Nom"
             className="outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2"
           />
+
+          <input
+            type="email"
+            value={email}
+            disabled
+            onChange={(e) => setAbout(e.target.value)}
+            placeholder="Email"
+            className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
+          />
+          <div className="flex justify-between p-1">
+            <div className="flex items-center border-b-2 border-gray-200 w-2/4">
+              <FaFacebook />
+              <input
+                type="url"
+                vlaue={destination}
+                disabled={user?._id !== currentUser._id}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Facebook"
+                className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
+              />
+            </div>
+            <div className="flex items-center border-b-2 border-gray-200 w-2/4">
+              <FaInstagramSquare />
+              <input
+                type="url"
+                vlaue={destination}
+                disabled={user?._id !== currentUser._id}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Instagram"
+                className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between p-1">
+            <div className="flex items-center border-b-2 border-gray-200 w-2/4">
+              <FaTwitterSquare />
+              <input
+                type="url"
+                vlaue={destination}
+                disabled={user?._id !== currentUser._id}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Twitter"
+                className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
+              />
+            </div>
+            <div className="flex items-center border-b-2 border-gray-200 w-2/4">
+              <FaYoutube />
+              <input
+                type="url"
+                disabled={user?._id !== currentUser._id}
+                vlaue={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Add a destination link"
+                className="outline-none text-base sm:text-lg border-b-0 border-gray-200 p-2"
+              />
+            </div>
+          </div>
           {user && (
             <div className="flex gap-2 mt-2 mb-2 items-center bg-white rounded-lg ">
               <img
@@ -154,80 +228,6 @@ const CreatePin = ({ user }) => {
               <p className="font-bold">{user.userName}</p>
             </div>
           )}
-          <input
-            type="text"
-            value={about}
-            onChange={(e) => setAbout(e.target.value)}
-            placeholder="Tell everyone what your Pin is about"
-            className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
-          />
-          <input
-            type="url"
-            vlaue={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            placeholder="Add a destination link"
-            className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
-          />
-
-          <div className="flex flex-col">
-            <div className="flex flex-row">
-              <div className="w-2/4">
-                <p className="mb-2 font-semibold text:lg sm:text-xl">
-                  Choose Pin Category
-                </p>
-                <select
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                  }}
-                  className="outline-none w-11/12 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
-                >
-                  <option value="others" className="sm:text-bg bg-white">
-                    Select Category
-                  </option>
-                  {categories.map((item) => (
-                    <option
-                      className="text-base border-0 outline-none capitalize bg-white text-black "
-                      value={item.name}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="w-2/4">
-                <p className="mb-2 font-semibold text:lg sm:text-xl">
-                  Choose Pin Domain
-                </p>
-                <select
-                  onChange={(e) => {
-                    setDomain(e.target.value);
-                  }}
-                  className="outline-none w-11/12 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
-                >
-                  <option value="others" className="sm:text-bg bg-white">
-                    Select Domain
-                  </option>
-                  {domaines.map((item) => (
-                    <option
-                      className="text-base border-0 outline-none capitalize bg-white text-black "
-                      value={item.name}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="flex justify-end items-end mt-5">
-              <button
-                type="button"
-                onClick={savePin}
-                className="bg-red-500 text-white font-bold p-2 rounded-full w-28 outline-none"
-              >
-                Save Pin
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
-import { GoogleLogout } from "react-google-login";
 
 import {
   userCreatedPinsQuery,
@@ -11,6 +10,7 @@ import {
 import { client } from "../client";
 import MasonryLayout from "./MasonryLayout";
 import Spinner from "./Spinner";
+import { UserDetails } from "./index";
 
 const activeBtnStyles =
   "bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none";
@@ -34,8 +34,8 @@ const UserProfile = () => {
 
   useEffect(() => {
     const query = userQuery(userId);
-    client.fetch(query).then((data) => {
-      setUser(data[0]);
+    client.fetch(query).then(([data]) => {
+      setUser(data);
     });
   }, [userId]);
 
@@ -46,7 +46,7 @@ const UserProfile = () => {
       client.fetch(createdPinsQuery).then((data) => {
         setPins(data);
       });
-    } else {
+    } else if (text === "saved") {
       const savedPinsQuery = userSavedPinsQuery(userId);
 
       client.fetch(savedPinsQuery).then((data) => {
@@ -57,7 +57,6 @@ const UserProfile = () => {
 
   const logout = () => {
     localStorage.clear();
-
     navigate("/login");
   };
 
@@ -137,14 +136,19 @@ const UserProfile = () => {
           </button>
         </div>
 
-        <div className="px-2">
-          <MasonryLayout pins={pins} />
-        </div>
-
-        {pins?.length === 0 && (
-          <div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
-            No Pins Found!
-          </div>
+        {text !== "details" ? (
+          <>
+            <div className="px-2">
+              <MasonryLayout pins={pins} />
+            </div>
+            {pins?.length === 0 && (
+              <div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
+                Pas de poste trouvé!
+              </div>
+            )}
+          </>
+        ) : (
+          <><UserDetails user={user && user} setUser={setUser}/></>
         )}
       </div>
     </div>

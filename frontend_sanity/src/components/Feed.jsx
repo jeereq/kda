@@ -12,7 +12,6 @@ const Feed = ({ type }) => {
   const { Id } = useParams();
 
   useEffect(() => {
-    console.log(type, Id);
     if (Id) {
       setLoading(true);
       const query = searchQuery(Id, type);
@@ -29,10 +28,10 @@ const Feed = ({ type }) => {
       });
     }
   }, [Id]);
-  const ideaName = Id || "new";
+  const ideaName = Id || "nouvelle";
   if (loading) {
     return (
-      <Spinner message={`We are adding ${ideaName} ideas to your feed!`} />
+      <Spinner message={`Nous ajoutons des idées ${ideaName} à votre flux !`} />
     );
   }
   return (
