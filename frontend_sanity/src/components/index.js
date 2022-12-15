@@ -8,3 +8,4 @@ export { default as Search } from "./Search";
 export { default as Login } from "./Login";
 export { default as Signin } from "./Signin";
 export { default as MasonryLayout } from "./MasonryLayout";
+export { default as Image } from "./image";

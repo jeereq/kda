@@ -65,7 +65,7 @@ const Login = () => {
               type={"submit"}
               className="bg-green-600 w-full flex justify-center items-center mt-2 p-3 rounded-lg cursor-pointer outline-none text-white"
             >
-              <FaUser className="mr-4" /> Signin
+              <FaUser className="mr-4" /> Sign in
             </button>
             <div
               onClick={() => navigate("/login")}
