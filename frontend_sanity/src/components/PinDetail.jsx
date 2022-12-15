@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { MdDownloadForOffline } from "react-icons/md";
+import { MdDownloadForOffline, MdLink } from "react-icons/md";
+
 import { Link, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import { client, urlFor } from "../client";
 import MasonryLayout from "./MasonryLayout";
-import { pinDetailMorePinQuery, pinDetailQuery } from "../utils/data";
+import {
+  pinDetailMorePinQuery,
+  pinDetailQuery,
+  domaines,
+  categories,
+} from "../utils/data";
 import Spinner from "./Spinner";
 
 const PinDetail = ({ user }) => {
@@ -87,10 +93,35 @@ const PinDetail = ({ user }) => {
                 >
                   <MdDownloadForOffline />
                 </a>
+                <a
+                  href={pinDetail.destination}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-secondaryColor p-2 text-xl rounded-full flex items-center justify-center text-dark opacity-75 hover:opacity-100"
+                >
+                  <MdLink />
+                </a>
               </div>
-              <a href={pinDetail.destination} target="_blank" rel="noreferrer">
-                {pinDetail.destination?.slice(8)}
-              </a>
+              <div className="flex gap-2 items-center">
+              {pinDetail?.domain && (
+                  <img
+                    src={
+                      domaines.find(({ name }) => name === pinDetail.domain)
+                        ?.image
+                    }
+                    className="ml-1 w-8 h-8 rounded-full shadow-sm"
+                  />
+                )}
+                {pinDetail?.category && (
+                  <img
+                    src={
+                      categories.find(({ name }) => name === pinDetail.category)
+                        ?.image
+                    }
+                    className="ml-1 w-8 h-8 rounded-full shadow-sm"
+                  />
+                )}
+              </div>
             </div>
             <div>
               <h1 className="text-4xl font-bold break-words mt-3">
@@ -109,6 +140,7 @@ const PinDetail = ({ user }) => {
               />
               <p className="font-bold">{pinDetail?.postedBy.userName}</p>
             </Link>
+
             <h2 className="mt-5 text-2xl">Comments</h2>
             <div className="max-h-370 overflow-y-auto">
               {pinDetail?.comments?.map((item) => (
