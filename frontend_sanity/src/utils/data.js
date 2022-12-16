@@ -198,7 +198,7 @@ export const pinDetailQuery = (pinId) => {
 };
 
 export const pinDetailMorePinQuery = (pin) => {
-  const query = `*[_type == "pin" && category == '${pin.category}' && _id != '${pin._id}' ]{
+  const query = `*[_type == "pin" && category == '${pin.category}' ||  domain == '${pin.domain}'  && _id != '${pin._id}' ]{
     image{
       asset->{
         url
@@ -258,6 +258,11 @@ export const searchQuery = (searchTerm, type) => {
 
 export const userQuery = (userId) => {
   const query = `*[_type == "user" && _id == '${userId}']`;
+  return query;
+};
+
+export const userLoginQuery = ({ userName, password }) => {
+  const query = `*[_type == "user" && userName == '${userName}' && password == '${password}']`;
   return query;
 };
 
