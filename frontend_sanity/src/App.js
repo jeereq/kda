@@ -15,7 +15,7 @@ const App = () => {
         ? JSON.parse(localStorage.getItem("user"))
         : localStorage.clear();
 
-    if (!User && (pathname !== "/login" || pathname !== "/Signin"))
+    if (!User && (pathname !== "/login" && pathname !== "/Signin"))
       navigate("/login");
   }, [pathname]);
 
