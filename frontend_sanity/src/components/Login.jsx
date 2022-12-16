@@ -37,7 +37,6 @@ const Login = () => {
     };
 
     client.createIfNotExists(doc).then((data) => {
-      console.log(data);
       navigate("/");
       if (data.image === "") {
         data.image = userImage;
