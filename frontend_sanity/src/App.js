@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
-import { Login, Signin,Image } from "./components";
+import { Login, Signin, Image } from "./components";
 import Home from "./container/Home";
 
 const App = () => {
@@ -14,7 +14,8 @@ const App = () => {
         ? JSON.parse(localStorage.getItem("user"))
         : localStorage.clear();
 
-    if (!User) navigate("/login");
+    if (!User && (pathname !== "/login" && pathname !== "/Signin"))
+      navigate("/login");
   }, [pathname]);
 
   return (
