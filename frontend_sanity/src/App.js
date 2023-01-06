@@ -9,7 +9,6 @@ const App = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    console.log(pathname);
     const User =
       localStorage.getItem("user") !== "undefined"
         ? JSON.parse(localStorage.getItem("user"))

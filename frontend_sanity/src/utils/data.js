@@ -260,6 +260,10 @@ export const userQuery = (userId) => {
   const query = `*[_type == "user" && _id == '${userId}']`;
   return query;
 };
+export const userLogin = ({ name, email }) => {
+  const query = `*[_type == "user" && name == '${name}' && email == '${email}']`;
+  return query;
+};
 
 export const userLoginQuery = ({ userName, password }) => {
   const query = `*[_type == "user" && userName == '${userName}' && password == '${password}']`;

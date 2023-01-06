@@ -8,10 +8,12 @@ import { FaUser } from "react-icons/fa";
 import shareVideo from "../assets/share.mp4";
 import logo from "../assets/logowhite.png";
 
+import { userLogin } from "../utils/data";
 import { client } from "../client";
 
 const Login = () => {
-  const userImage='https://source.unsplash.com/1600x900/?nature,photography,technology'
+  const userImage =
+    "https://source.unsplash.com/1600x900/?nature,photography,technology";
   const image =
     "https://cdn.sanity.io/images/96u1hx5i/production/149e6bfdb5f26188303f1e426f6145151052d136-1620x2880.jpg";
   const [login, setLogin] = useState({
@@ -25,24 +27,28 @@ const Login = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    const { name, email } = login;
+    const query = userLogin(login);
 
-    const doc = {
-      _id: uuidv4(),
-      _type: "user",
-      userName: name,
-      email,
-      Image: image,
-      image,
-    };
-
-    client.createIfNotExists(doc).then((data) => {
-      navigate("/");
-      if (data.image === "") {
-        data.image = userImage;
-      }
-      localStorage.setItem("user", JSON.stringify(data));
-    });
+    client
+      .fetch(query)
+      .then((data) => {
+        console.log(data, login);
+        if (data?.image === "") {
+          data.image = userImage;
+        }
+        // localStorage.setItem("user", JSON.stringify(data));
+        // navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // client.createIfNotExists(doc).then((data) => {
+    //   navigate("/");
+    //   if (data.image === "") {
+    //     data.image = userImage;
+    //   }
+    //   localStorage.setItem("user", JSON.stringify(data));
+    // });
   };
   useEffect(() => {
     const User =

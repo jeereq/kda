@@ -15,8 +15,11 @@ import { client } from "../client";
 
 const Signin = () => {
   const [login, setLogin] = useState({
-    name: "jeereq",
-    email: "minganda@itm.com",
+    name: "",
+    email: "",
+    password: "",
+    newPassword: "",
+    image: "",
   });
   const [loading, setLoading] = useState(false);
   const [imageAsset, setImageAsset] = useState();
@@ -28,11 +31,30 @@ const Signin = () => {
     e.preventDefault();
     e.stopPropagation();
     const { name, email } = login;
-    const doc = { _id: uuidv4(), _type: "user", userName: name, email };
-    const response = client.createIfNotExists(doc).then((data) => {
-      return data;
-    });
+    const doc = {
+      _id: uuidv4(),
+      _type: "user",
+      userName: name,
+      email,
+      image: {
+        _type: "image",
+        asset: {
+          _type: "reference",
+          _ref: imageAsset?._id,
+        },
+      },
+    };
+    const response = client
+      .createIfNotExists(doc)
+      .then((data) => {
+        console.log(data);
+        return data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   const uploadImage = (e) => {
     const [selectedFile] = e.target.files;
     // uploading asset to sanity
@@ -64,8 +86,8 @@ const Signin = () => {
   };
 
   return (
-    <div className="flex justify-start items-center flex-col h-screen">
-      <div className="relative w-full h-full ">
+    <div className="flex justify-start items-center flex-col h-full">
+      <div className="relative w-full h-full">
         <video
           src={shareVideo}
           type={`video/mp4`}
@@ -79,7 +101,7 @@ const Signin = () => {
           <div className="p-5">
             <img src={logo} width={`130px`} alt="logo" />
           </div>
-          <form className="shadow-2x1 " onSubmit={onClick}>
+          <form className="shadow-2x1" onSubmit={onClick}>
             <input
               type={"text"}
               required
@@ -95,6 +117,24 @@ const Signin = () => {
               className="mb-3 p-2 rounded-lg w-full cursor-pointer outline-none"
               onChange={(e) => setLogin({ ...login, email: e.target.value })}
               value={login.email}
+            />
+            <input
+              type={"password"}
+              required
+              placeholder="Mot de passe "
+              className="mb-3 p-2 rounded-lg w-2/4 cursor-pointer outline-none"
+              onChange={(e) => setLogin({ ...login, password: e.target.value })}
+              value={login.password}
+            />
+            <input
+              type={"password"}
+              required
+              placeholder="confirmer mot de passe"
+              className="mb-3 p-2 rounded-lg w-2/4 cursor-pointer outline-none"
+              onChange={(e) =>
+                setLogin({ ...login, newPassword: e.target.value })
+              }
+              value={login.newPassword}
             />
             <div className="bg-secondaryColor p-3 flex flex-0.7 w-full">
               <div className=" flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-300">
@@ -128,7 +168,7 @@ const Signin = () => {
                     <img
                       src={imageAsset?.url}
                       alt="uploaded-pic"
-                      className="h-full w-full"
+                      className="h-300 w-300"
                     />
                     <button
                       type="button"
