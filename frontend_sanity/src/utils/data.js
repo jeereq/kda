@@ -261,7 +261,7 @@ export const userQuery = (userId) => {
   return query;
 };
 export const userLogin = ({ name, email }) => {
-  const query = `*[_type == "user" && name == '${name}' && email == '${email}']`;
+  const query = `*[_type == "user" && userName == '${name}' && email == '${email}']`;
   return query;
 };
 

@@ -20,10 +20,15 @@ const Login = () => {
     name: "",
     email: "",
   });
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const onClick = (e) => {
+    setError(false);
+    setLoading(true);
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -31,24 +36,20 @@ const Login = () => {
 
     client
       .fetch(query)
-      .then((data) => {
+      .then(([data]) => {
         console.log(data, login);
-        if (data?.image === "") {
-          data.image = userImage;
+        if (typeof data !== "undefined") {
+          localStorage.setItem("user", JSON.stringify(data));
+          navigate("/");
+        } else {
+          setError(true);
         }
-        // localStorage.setItem("user", JSON.stringify(data));
-        // navigate("/");
+        setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        setError(true);
+        setLoading(false);
       });
-    // client.createIfNotExists(doc).then((data) => {
-    //   navigate("/");
-    //   if (data.image === "") {
-    //     data.image = userImage;
-    //   }
-    //   localStorage.setItem("user", JSON.stringify(data));
-    // });
   };
   useEffect(() => {
     const User =
@@ -92,11 +93,16 @@ const Login = () => {
               onChange={(e) => setLogin({ ...login, email: e.target.value })}
               value={login.email}
             />
+            {error && (
+              <div className="rounded-lg outline-none bg-white text-center text-red-600 p-2 w-full cursor-pointer">
+                Verifier vos informations de connexion ou votre internet
+              </div>
+            )}
             <button
               type={"submit"}
               className="bg-green-600 w-full flex justify-center items-center mt-2 p-3 rounded-lg cursor-pointer outline-none text-white"
             >
-              <FaUser className="mr-4" /> Login
+              <FaUser className="mr-4" /> {loading ? "Login..." : "Login"}
             </button>
             <div
               onClick={() => navigate("/Signin")}
