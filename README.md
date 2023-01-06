@@ -1,4 +1,4 @@
-# ShareMe Social Media Application
+# Pona n'ga Social Media Application
 ![ShareMe](https://i.ibb.co/8cLfj3X/image.png)
 
 ## Introduction
